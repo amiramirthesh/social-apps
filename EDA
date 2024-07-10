@@ -1,0 +1,43 @@
+library(readr)
+library(dplyr)
+library(ggplot2)
+str(test)
+head(test)
+summary(test)
+
+head(test)
+
+# Check for missing values
+colSums(is.na(test))
+
+# Visualize the distribution of each numeric variable
+numeric_vars <- sapply(test, is.numeric)
+test.numeric<- test[, numeric_vars]
+
+# Check for missing values
+missing_values <- sapply(test, function(x) sum(is.na(x)))
+missing_values
+
+# Handle missing values (e.g., by removing rows with missing values)
+cleaned_data <- na.omit(test)
+
+# Ensure Season is a categorical variable (replace 'Season' with the actual column name)
+test$User_ID<- as.factor(test$User_ID)
+
+# Histogram for a numeric variable (replace 'temp' with an appropriate column name)
+ggplot(test, aes(x = User_ID)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Histogram", x = "user_id", y = "daily usage")
+
+# Scatter plot to show the relationship between two numeric variables (replace 'temp' and 'humidity' with appropriate column names)
+ggplot(test, aes(x = Gender, y = Daily_Usage_Time..minutes.)) +
+  geom_point(color = "red") +
+  theme_minimal() +
+  labs(title = "Scatter Plot ", x = "gender", y = "daily usage")
+
+# Time series plot for a variable over time (replace 'date' and 'temp' with appropriate column names)
+ggplot(test, aes(x = Platform, y = Daily_Usage_Time..minutes.)) +
+  geom_line(color = "maroon") +
+  theme_minimal() +
+  labs(title = "Time Series ", x = "platform", y = "daily usage")
